@@ -1,0 +1,1736 @@
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/wyButjTMhM)
+-- Decompiled on 2024-11-25 01:43:05
+-- Luau version 6, Types version 3
+-- Time taken: 0.026180 seconds
+
+local module_2_upvr = {}
+local ReplicatedStorage_upvr = game:GetService("ReplicatedStorage")
+local RunService_upvr = game:GetService("RunService")
+module_2_upvr.ChunkHitboxes = {}
+module_2_upvr.BreakableObjects = {}
+coroutine.wrap(function() -- Line 30
+    --[[ Upvalues[1]:
+        [1]: module_2_upvr (readonly)
+    ]]
+    local Characters_upvr = workspace:WaitForChild("Characters")
+    local setmetatable_result1_upvw = setmetatable({}, {
+        __mode = 'k';
+    })
+    local const_number_upvw = 0
+    while true do
+        pcall(function() -- Line 38
+            --[[ Upvalues[4]:
+                [1]: const_number_upvw (read and write)
+                [2]: setmetatable_result1_upvw (read and write)
+                [3]: module_2_upvr (copied, readonly)
+                [4]: Characters_upvr (readonly)
+            ]]
+            -- KONSTANTERROR: [141] 110. Error Block 26 start (CF ANALYSIS FAILED)
+            wait(0.5)
+            -- KONSTANTERROR: [141] 110. Error Block 26 end (CF ANALYSIS FAILED)
+            -- KONSTANTERROR: [0] 1. Error Block 32 start (CF ANALYSIS FAILED)
+            -- KONSTANTERROR: Expression was reused, decompilation is incorrect
+            -- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [145.65666]
+            -- KONSTANTERROR: [0] 1. Error Block 32 end (CF ANALYSIS FAILED)
+        end)
+        setmetatable_result1_upvw = setmetatable({}, {
+            __mode = 'k';
+        })
+        print("Failed to Start hitboxes...")
+        wait(5)
+    end
+end)()
+local Debris_upvr = game:GetService("Debris")
+function module_2_upvr.PlaySound(arg1, arg2, arg3, arg4) -- Line 100
+    --[[ Upvalues[2]:
+        [1]: ReplicatedStorage_upvr (readonly)
+        [2]: Debris_upvr (readonly)
+    ]]
+    local var19
+    if not var19 then
+        var19 = arg2:FindFirstChild("HumanoidRootPart")
+    end
+    if arg2:IsA("BasePart") then
+        var19 = arg2
+    end
+    if not var19 then
+        print("BASEPART NOT FOUND")
+        return
+    end
+    local SOME_2_upvw = var19:FindFirstChild(arg3)
+    if not SOME_2_upvw or arg4 == "Expire" then
+        local SOME = ReplicatedStorage_upvr:WaitForChild("Sounds"):FindFirstChild(arg3)
+        if SOME or tonumber(arg3) then
+            if SOME then
+                SOME_2_upvw = SOME:Clone()
+            else
+                SOME_2_upvw = ReplicatedStorage_upvr.Sounds.ADefault_:Clone()
+                SOME_2_upvw.SoundId = "rbxassetid://"..arg3
+                SOME_2_upvw.Name = arg3
+            end
+            SOME_2_upvw.Parent = var19
+            if arg4 == "Expire" then
+                Debris_upvr:AddItem(SOME_2_upvw, SOME_2_upvw.TimeLength + 1)
+                -- KONSTANTWARNING: GOTO [87] #67
+            end
+        else
+            warn(string.format("Sound %s is unknown.", arg3))
+        end
+    end
+    if arg4 and type(arg4) == "table" then
+        for i, v in pairs(arg4) do
+            SOME_2_upvw[i] = v
+        end
+    elseif type(arg4) == "number" then
+        coroutine.wrap(function() -- Line 142
+            --[[ Upvalues[2]:
+                [1]: arg4 (readonly)
+                [2]: SOME_2_upvw (read and write)
+            ]]
+            wait(arg4)
+            SOME_2_upvw:Stop()
+        end)()
+    end
+    if arg4 == false then
+        SOME_2_upvw:Stop()
+    else
+        SOME_2_upvw:Play()
+    end
+    return SOME_2_upvw
+end
+function module_2_upvr.Particle(arg1, arg2, arg3) -- Line 157
+    --[[ Upvalues[1]:
+        [1]: ReplicatedStorage_upvr (readonly)
+    ]]
+    if not arg2 then return end
+    local var26
+    if not arg2:IsA("BasePart") and var26:FindFirstChild("Torso") then
+        var26 = var26.Torso
+    end
+    if not var26:FindFirstChild(arg3) then
+        local SOME_3 = ReplicatedStorage_upvr:WaitForChild("Particles"):FindFirstChild(arg3)
+        if SOME_3 then
+            local clone_2 = SOME_3:Clone()
+            clone_2.Parent = var26
+            return clone_2
+        end
+        error(string.format("Particle %s is unknown.", arg3))
+    end
+    return clone_2
+end
+function module_2_upvr.SetupAnimFolder(arg1, arg2, arg3) -- Line 184
+    for _, v_2 in pairs(arg2.Animations:GetChildren()) do
+        arg1[v_2.Name] = arg3:LoadAnimation(v_2)
+    end
+end
+function module_2_upvr.TweenPosition(arg1, arg2, arg3, arg4) -- Line 190
+    local var34 = arg4
+    if not var34 then
+        var34 = Enum.EasingDirection.Out
+    end
+    arg1:TweenPosition(arg2, var34, Enum.EasingStyle.Quad, arg3, true)
+end
+function module_2_upvr.TweenSize(arg1, arg2, arg3, arg4) -- Line 194
+    local var35 = arg4
+    if not var35 then
+        var35 = Enum.EasingDirection.Out
+    end
+    arg1:TweenSize(arg2, var35, Enum.EasingStyle.Quad, arg3, true)
+end
+local TweenService_upvr = game:GetService("TweenService")
+function module_2_upvr.Tween(arg1, arg2, arg3, arg4, arg5) -- Line 198
+    --[[ Upvalues[1]:
+        [1]: TweenService_upvr (readonly)
+    ]]
+    if not arg1 or not arg1.Parent then return end
+    local var37 = arg4
+    if not var37 then
+        var37 = Enum.EasingStyle.Quad
+    end
+    local var38 = arg5
+    if not var38 then
+        var38 = Enum.EasingDirection.Out
+    end
+    local any_Create_result1_upvr = TweenService_upvr:Create(arg1, TweenInfo.new(arg3, var37, var38), arg2)
+    any_Create_result1_upvr:Play()
+    coroutine.wrap(function() -- Line 205
+        --[[ Upvalues[1]:
+            [1]: any_Create_result1_upvr (readonly)
+        ]]
+        any_Create_result1_upvr.Completed:Wait()
+        any_Create_result1_upvr:Destroy()
+    end)()
+    return any_Create_result1_upvr
+end
+function module_2_upvr.GetTouchingParts(arg1) -- Line 214
+    arg1.Touched:Connect(function() -- Line 215
+    end):Disconnect()
+    return arg1:GetTouchingParts()
+end
+function module_2_upvr.CreateAttachment(arg1, arg2, arg3, arg4) -- Line 221
+    local Attachment = Instance.new("Attachment", arg2)
+    Attachment.Name = tick()
+    local Attachment_2 = Instance.new("Attachment", arg2)
+    Attachment_2.Name = tick()
+    Attachment.Position = arg3
+    Attachment_2.Position = arg4
+    return Attachment, Attachment_2
+end
+function module_2_upvr.WaitHitStun(arg1, arg2, arg3, arg4) -- Line 231
+    --[[ Upvalues[1]:
+        [1]: RunService_upvr (readonly)
+    ]]
+    local var44
+    if var44 then
+        var44 = true
+        while 0 < arg2 do
+            if arg3.Stun.Value or arg3.Ragdoll.Value then
+                if arg4 then
+                    arg4(arg3)
+                end
+                var44 = false
+                return var44
+            end
+            RunService_upvr.Stepped:Wait()
+        end
+        return var44
+    end
+    wait(arg2)
+    if arg3.Stun.Value or arg3.Ragdoll.Value then
+        return false
+    end
+    return true
+end
+local setmetatable_result1_upvr_2 = setmetatable({}, {
+    __mode = 'k';
+})
+function module_2_upvr.SetModelVisibility(arg1, arg2, arg3) -- Line 268
+    --[[ Upvalues[1]:
+        [1]: setmetatable_result1_upvr_2 (readonly)
+    ]]
+    -- KONSTANTERROR: [0] 1. Error Block 1 start (CF ANALYSIS FAILED)
+    -- KONSTANTERROR: [0] 1. Error Block 1 end (CF ANALYSIS FAILED)
+    -- KONSTANTERROR: [4] 5. Error Block 43 start (CF ANALYSIS FAILED)
+    for _, v_3 in pairs(setmetatable_result1_upvr_2[arg2]) do
+        if v_3[1] and v_3[1].Parent then
+            if v_3[1]:IsA("BasePart") then
+                v_3[1].Transparency = v_3[2]
+            elseif v_3[1]:IsA("PointLight") or v_3[1]:IsA("ParticleEmitter") then
+                v_3[1].Enabled = true
+            end
+        end
+    end
+    setmetatable_result1_upvr_2[arg2] = nil
+    do
+        return
+    end
+    -- KONSTANTERROR: [4] 5. Error Block 43 end (CF ANALYSIS FAILED)
+    -- KONSTANTERROR: [49] 42. Error Block 40 start (CF ANALYSIS FAILED)
+    setmetatable_result1_upvr_2[arg2] = {}
+    for _, v_4 in pairs(arg2:GetDescendants()) do
+        if v_4:IsA("BasePart") and v_4.Transparency ~= 1 then
+            table.insert(setmetatable_result1_upvr_2[arg2], {v_4, v_4.Transparency})
+            v_4.Transparency = 1
+        elseif v_4:IsA("PointLight") or v_4:IsA("ParticleEmitter") then
+            if v_4.Enabled then
+                table.insert(setmetatable_result1_upvr_2[arg2], {v_4})
+                v_4.Enabled = false
+            end
+        end
+    end
+    -- KONSTANTERROR: [49] 42. Error Block 40 end (CF ANALYSIS FAILED)
+end
+function module_2_upvr.CharacterModel(arg1, arg2, arg3, arg4) -- Line 298
+    --[[ Upvalues[1]:
+        [1]: RunService_upvr (readonly)
+    ]]
+    if RunService_upvr:IsClient() or arg2:FindFirstChild(arg3) then
+        if arg4 then
+            while not arg2:FindFirstChild(arg3) do
+                wait(1)
+            end
+        end
+        return arg2:FindFirstChild(arg3)
+    end
+    if not arg4 then
+        local clone = game:GetService("ServerStorage").Models.Character:FindFirstChild(arg3):Clone()
+        if clone:IsA("Model") then
+            local PrimaryPart_2 = clone.PrimaryPart
+            if not PrimaryPart_2 then return end
+            local class_Part_2 = PrimaryPart_2:FindFirstChildOfClass("Part")
+            if not class_Part_2 then
+                class_Part_2 = PrimaryPart_2:FindFirstChildOfClass("MeshPart")
+            end
+            local Weld_2 = Instance.new("Weld", PrimaryPart_2)
+            Weld_2.C0 = class_Part_2.CFrame:Inverse()
+            Weld_2.C1 = PrimaryPart_2.CFrame:Inverse()
+            Weld_2.Part0 = arg2:FindFirstChild(class_Part_2.Name)
+            Weld_2.Part1 = PrimaryPart_2
+            class_Part_2:Destroy()
+            clone.Parent = arg2
+            return clone
+        end
+        local class_Part = clone:FindFirstChildOfClass("Part")
+        local Weld = Instance.new("Weld", clone)
+        Weld.C0 = class_Part.CFrame:Inverse()
+        Weld.C1 = clone.CFrame:Inverse()
+        Weld.Part0 = arg2:FindFirstChild(class_Part.Name)
+        Weld.Part1 = clone
+        class_Part:Destroy()
+        clone.Parent = arg2
+        return clone
+    end
+end
+local setmetatable_result1_upvr = setmetatable({}, {
+    __mode = 'k';
+})
+function module_2_upvr.LoadAnimation(arg1, arg2, arg3, arg4, arg5, arg6) -- Line 348
+    --[[ Upvalues[1]:
+        [1]: setmetatable_result1_upvr (readonly)
+    ]]
+    -- KONSTANTERROR: [0] 1. Error Block 28 start (CF ANALYSIS FAILED)
+    local var66
+    if not arg2:FindFirstChild("Humanoid") then return end
+    local Humanoid = arg2:WaitForChild("Humanoid")
+    if not setmetatable_result1_upvr[arg2] then
+        setmetatable_result1_upvr[arg2] = {}
+    end
+    if type(var66) == "string" then
+        local var68 = var66
+        var66 = Instance.new("Animation")
+        var66.AnimationId = var68
+        if not setmetatable_result1_upvr[arg2][var68] then
+            setmetatable_result1_upvr[arg2][var68] = Humanoid:FindFirstChild("Animator") or Humanoid:LoadAnimation(var66)
+        end
+        return setmetatable_result1_upvr[arg2][var68]
+    end
+    if not setmetatable_result1_upvr[arg2][var66] then
+        setmetatable_result1_upvr[arg2][var66] = Humanoid:FindFirstChild("Animator") or Humanoid:LoadAnimation(var66)
+    end
+    if arg4 then
+        if arg4 == "Play" then
+            setmetatable_result1_upvr[arg2][var66]:Play()
+            if arg5 then
+                setmetatable_result1_upvr[arg2][var66]:AdjustSpeed(arg5)
+                -- KONSTANTWARNING: GOTO [93] #79
+            end
+        else
+            setmetatable_result1_upvr[arg2][var66]:Stop(arg6)
+        end
+    end
+    -- KONSTANTERROR: [0] 1. Error Block 28 end (CF ANALYSIS FAILED)
+    -- KONSTANTERROR: [93] 79. Error Block 17 start (CF ANALYSIS FAILED)
+    do
+        return setmetatable_result1_upvr[arg2][var66]
+    end
+    -- KONSTANTERROR: [93] 79. Error Block 17 end (CF ANALYSIS FAILED)
+end
+local Part_2_upvr = Instance.new("Part")
+function module_2_upvr.CFrameToOrientation(arg1) -- Line 394
+    --[[ Upvalues[1]:
+        [1]: Part_2_upvr (readonly)
+    ]]
+    Part_2_upvr.CFrame = arg1
+    return {
+        X = Part_2_upvr.Orientation.X;
+        Y = Part_2_upvr.Orientation.Y;
+        Z = Part_2_upvr.Orientation.Z;
+    }
+end
+local function _(arg1) -- Line 399, Named "ReturnArray"
+    local module = {}
+    for _, v_5 in pairs(arg1) do
+        table.insert(module, v_5)
+    end
+    return module
+end
+local function _(arg1, arg2) -- Line 407, Named "RemoveFromTable"
+    for i_6, v_6 in pairs(arg2) do
+        if v_6 == arg1 then
+            table.remove(arg2, i_6)
+        end
+    end
+end
+function module_2_upvr.CreateSimplePart(arg1) -- Line 415
+    local Part = Instance.new("Part", workspace)
+    Part.Transparency = 0.7
+    Part.Color = Color3.fromRGB(255, 0, 0)
+    Part.Anchored = true
+    Part.CanCollide = false
+    Part.Size = Vector3.new(1, 1, 1)
+    Part.CFrame = arg1
+    return Part
+end
+function module_2_upvr.ReturnChunkPosRadius(arg1, arg2, arg3) -- Line 430
+    local module_3_upvr = {}
+    local function _(arg1_2, arg2_2) -- Line 433, Named "R"
+        --[[ Upvalues[1]:
+            [1]: module_3_upvr (readonly)
+        ]]
+        local tbl_3 = {}
+        tbl_3[1] = arg1_2
+        tbl_3[2] = arg2_2
+        table.insert(module_3_upvr, tbl_3)
+    end
+    local tbl_4 = {}
+    tbl_4[1] = arg1
+    tbl_4[2] = arg2
+    table.insert(module_3_upvr, tbl_4)
+    for i_7 = 1, arg3 do
+        local tbl_6 = {arg1 + i_7}
+        tbl_6[2] = arg2
+        table.insert(module_3_upvr, tbl_6)
+        local tbl_2 = {arg1 - i_7}
+        tbl_2[2] = arg2
+        table.insert(module_3_upvr, tbl_2)
+        local tbl = {}
+        tbl[1] = arg1
+        tbl[2] = arg2 + i_7
+        table.insert(module_3_upvr, tbl)
+        local tbl_5 = {}
+        tbl_5[1] = arg1
+        tbl_5[2] = arg2 - i_7
+        table.insert(module_3_upvr, tbl_5)
+    end
+    for i_8 = 1, arg3 do
+        for i_9 = 1, arg3 do
+            table.insert(module_3_upvr, {arg1 + i_8, arg2 + i_9})
+        end
+    end
+    for i_10 = 1, arg3 do
+        for i_11 = 1, arg3 do
+            table.insert(module_3_upvr, {arg1 - i_10, arg2 + i_11})
+        end
+    end
+    for i_12 = 1, arg3 do
+        for i_13 = 1, arg3 do
+            table.insert(module_3_upvr, {arg1 + i_12, arg2 - i_13})
+        end
+    end
+    for i_14 = 1, arg3 do
+        for i_15 = 1, arg3 do
+            table.insert(module_3_upvr, {arg1 - i_14, arg2 - i_15})
+        end
+    end
+    return module_3_upvr
+end
+function module_2_upvr.FramedHitbox(arg1, arg2, arg3, arg4) -- Line 477
+    --[[ Upvalues[2]:
+        [1]: module_2_upvr (readonly)
+        [2]: RunService_upvr (readonly)
+    ]]
+    if not arg1:FindFirstChild("HumanoidRootPart") then return end
+    local module_upvr = {}
+    for _ = 1, arg3 * 2 do
+        for _, v_7_upvr in pairs(module_2_upvr.RenderHitbox(arg1, arg2)) do
+            local Parent_upvr = v_7_upvr.Parent
+            if Parent_upvr ~= arg1 and not module_upvr[v_7_upvr] then
+                local tick_result1_upvr = tick()
+                task.spawn(function() -- Line 495
+                    --[[ Upvalues[5]:
+                        [1]: arg4 (readonly)
+                        [2]: Parent_upvr (readonly)
+                        [3]: tick_result1_upvr (readonly)
+                        [4]: module_upvr (readonly)
+                        [5]: v_7_upvr (readonly)
+                    ]]
+                    if arg4(Parent_upvr, tick() - tick_result1_upvr) then
+                        module_upvr[v_7_upvr] = v_7_upvr
+                    end
+                end)
+                RunService_upvr.Stepped:Wait()
+            end
+        end
+        wait(0.05)
+    end
+    return module_upvr
+end
+function module_2_upvr.RenderObjectHitbox(arg1, arg2, arg3) -- Line 512
+    --[[ Upvalues[1]:
+        [1]: module_2_upvr (readonly)
+    ]]
+    if not arg3 then
+    end
+    local var132 = arg1
+    if typeof(arg1) == "CFrame" then
+        var132 = arg1.Position
+    end
+    for _, v_8 in pairs(module_2_upvr.ReturnChunkPosRadius(math.floor(var132.X / 100), math.floor(var132.Z / 100), 1)) do
+        local var136 = module_2_upvr.BreakableObjects[v_8[1]..'/'..v_8[2]]
+        if var136 then
+            for _, v_9 in pairs(var136) do
+                local PrimaryPart = v_9.PrimaryPart
+                if PrimaryPart and (var132 - PrimaryPart.Position).Magnitude < arg2.Size.Z + PrimaryPart.Size.Z / 2 then
+                    ({})[v_9.Name] = v_9.CharacterHitbox
+                end
+            end
+        end
+    end
+    -- KONSTANTERROR: Expression was reused, decompilation is incorrect
+    return {}
+end
+function module_2_upvr.RenderHitbox(arg1, arg2, arg3, arg4, arg5, arg6) -- Line 548
+    --[[ Upvalues[2]:
+        [1]: module_2_upvr (readonly)
+        [2]: RunService_upvr (readonly)
+    ]]
+    -- KONSTANTERROR: [0] 1. Error Block 61 start (CF ANALYSIS FAILED)
+    local var141
+    if not arg1:FindFirstChild("HumanoidRootPart") then
+        return {}
+    end
+    if not var141 then
+        var141 = 1
+    end
+    if not arg4 then
+    end
+    if arg6 then
+    end
+    if 5.5 < arg1.CharacterHitbox.Size.Y then
+    end
+    if type(arg2.Position) == "number" then
+    end
+    -- KONSTANTERROR: [0] 1. Error Block 61 end (CF ANALYSIS FAILED)
+    -- KONSTANTERROR: [304] 200. Error Block 73 start (CF ANALYSIS FAILED)
+    if 1 ~= var141 then
+        if RunService_upvr:IsClient() then
+            wait(0.05)
+        else
+            wait(0.1)
+        end
+    end
+    -- KONSTANTERROR: [304] 200. Error Block 73 end (CF ANALYSIS FAILED)
+    -- KONSTANTERROR: [104] 73. Error Block 14 start (CF ANALYSIS FAILED)
+    -- KONSTANTERROR: [104] 73. Error Block 14 end (CF ANALYSIS FAILED)
+end
+local module_4_upvr = require(ReplicatedStorage_upvr:WaitForChild("Modules"):WaitForChild("PreciseRaycastingModule"))
+function module_2_upvr.CircleMag(arg1, arg2, arg3) -- Line 656
+    --[[ Upvalues[2]:
+        [1]: module_2_upvr (readonly)
+        [2]: module_4_upvr (readonly)
+    ]]
+    -- KONSTANTERROR: [0] 1. Error Block 1 start (CF ANALYSIS FAILED)
+    local var144 = arg1 * arg2
+    local cframe_looking_at = CFrame.lookAt(arg1.Position, var144.Position)
+    local pairs_result1_6, pairs_result2_3, pairs_result3 = pairs(module_2_upvr.ReturnChunkPosRadius(math.floor(cframe_looking_at.Position.X / 100), math.floor(cframe_looking_at.Position.Z / 100), 1 + math.ceil((var144.Position - cframe_looking_at.Position).Magnitude / 100)))
+    -- KONSTANTERROR: [0] 1. Error Block 1 end (CF ANALYSIS FAILED)
+    -- KONSTANTERROR: [146] 102. Error Block 14 start (CF ANALYSIS FAILED)
+    -- KONSTANTERROR: [146] 102. Error Block 14 end (CF ANALYSIS FAILED)
+    -- KONSTANTERROR: [54] 39. Error Block 2 start (CF ANALYSIS FAILED)
+    -- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [146.16]
+    -- KONSTANTERROR: [54] 39. Error Block 2 end (CF ANALYSIS FAILED)
+end
+function module_2_upvr.CenterPointHitbox(arg1, arg2, arg3) -- Line 697
+    --[[ Upvalues[1]:
+        [1]: module_2_upvr (readonly)
+    ]]
+    -- KONSTANTERROR: [0] 1. Error Block 19 start (CF ANALYSIS FAILED)
+    if not arg3 then
+    end
+    local pairs_result1, pairs_result2, pairs_result3_4 = pairs(module_2_upvr.ReturnChunkPosRadius(math.floor(arg1.X / 100), math.floor(arg1.Z / 100), 1 + math.ceil(arg2 / 100)))
+    -- KONSTANTERROR: [0] 1. Error Block 19 end (CF ANALYSIS FAILED)
+    -- KONSTANTERROR: [138] 97. Error Block 16 start (CF ANALYSIS FAILED)
+    -- KONSTANTERROR: [138] 97. Error Block 16 end (CF ANALYSIS FAILED)
+    -- KONSTANTERROR: [39] 32. Error Block 4 start (CF ANALYSIS FAILED)
+    -- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [138.15]
+    -- KONSTANTERROR: [39] 32. Error Block 4 end (CF ANALYSIS FAILED)
+end
+function module_2_upvr.BasedAnim(arg1, arg2, arg3, arg4) -- Line 740
+    local any_LoadAnimation_result1 = arg2:WaitForChild("Humanoid"):LoadAnimation(arg3)
+    any_LoadAnimation_result1:Play(arg3.fadeTime.Value, arg3.weight.Value, arg3.speed.Value)
+    wait(arg3.Running.Value)
+    any_LoadAnimation_result1:Stop(arg3.stopFade.Value)
+end
+local tbl_7 = {
+    SwingEffect = function(arg1, arg2) -- Line 758, Named "SwingEffect"
+        if arg2 then
+            arg1.Handle.SwingEffect:Play()
+        else
+            arg1.Handle.SwingEffect:Stop()
+        end
+    end;
+    BladeTrail = function(arg1, arg2, arg3) -- Line 766, Named "BladeTrail"
+        local Effects_3 = arg1:FindFirstChild("Effects")
+        if not Effects_3 then
+        else
+            if arg3 then
+                Effects_3["BladeTrail"..arg3].Enabled = arg2
+                return
+            end
+            for _, v_10 in pairs(Effects_3:GetChildren()) do
+                if v_10.Name == "BladeTrail" then
+                    v_10.Enabled = arg2
+                end
+            end
+        end
+    end;
+}
+local var161_upvw
+function tbl_7.Hybrid(arg1, arg2, ...) -- Line 782
+    --[[ Upvalues[1]:
+        [1]: var161_upvw (read and write)
+    ]]
+    if arg2 then
+        var161_upvw.SwingEffect(arg1, arg2, ...)
+    end
+    if type(arg2) == "number" then
+        var161_upvw.BladeTrail(arg1, true, ...)
+        task.spawn(function() -- Line 789
+            --[[ Upvalues[3]:
+                [1]: arg2 (readonly)
+                [2]: var161_upvw (copied, read and write)
+                [3]: arg1 (readonly)
+            ]]
+            wait(arg2)
+            var161_upvw.BladeTrail(arg1, false)
+        end)
+    else
+        var161_upvw.BladeTrail(arg1, arg2, ...)
+    end
+end
+function tbl_7.Enchant2(arg1, arg2) -- Line 798
+    local Effects_2 = arg1:FindFirstChild("Effects")
+    if not Effects_2 then
+    else
+        if arg1:FindFirstChild("EnchantParticles") then
+            for _, v_11 in pairs(arg1:GetChildren()) do
+                if v_11.Name == "EnchantParticles" then
+                    for _, v_12 in pairs(v_11:GetChildren()) do
+                        if string.find(v_12.Name, "Enchant2") then
+                            v_12.Enabled = arg2
+                        end
+                    end
+                end
+            end
+            return
+        end
+        for _, v_13 in pairs(Effects_2:GetChildren()) do
+            if string.find(v_13.Name, "Enchant2") then
+                v_13.Enabled = arg2
+            end
+        end
+    end
+end
+function tbl_7.ChargeEffect(arg1, arg2) -- Line 822
+    local Effects = arg1:FindFirstChild("Effects")
+    if not Effects or not Effects:FindFirstChild("ChargeEffect") then
+    else
+        Effects.ChargeEffect.Enabled = arg2
+    end
+end
+var161_upvw = tbl_7
+function module_2_upvr.HandModelEffect(arg1, arg2, arg3, arg4, arg5) -- Line 831
+    --[[ Upvalues[1]:
+        [1]: var161_upvw (read and write)
+    ]]
+    if var161_upvw[arg3] and arg2:FindFirstChild("HandModel") then
+        local var182
+        if arg2.HandModel.Value then
+            var182 = arg2.HandModel
+            local Value_2 = var182.Value
+            local function INLINED_2() -- Internal function, doesn't exist in bytecode
+                var182 = Value_2:FindFirstChild("LeftGrip")
+                return var182
+            end
+            if not arg5 or not INLINED_2() then
+                var182 = Value_2:FindFirstChild("RightGrip")
+            end
+            if not var182 then return end
+            var161_upvw[arg3](var182, arg4)
+            if arg5 == nil and Value_2:FindFirstChild("LeftGrip") then
+                var161_upvw[arg3](Value_2.LeftGrip, arg4)
+                return
+            end
+        end
+    end
+end
+module_2_upvr.WeaponInfo = {
+    Fists = {
+        MaxCombo = 5;
+        M2_Variations = 1;
+        AnimSpeed = 1;
+        WeaponType = "Fists";
+        M1_StunMultiplier = 0.95;
+        M1_1 = {
+            Size = Vector3.new(6, 12, 5);
+            Time = 0.35;
+            PosTime = 0.2;
+            Frames = 3;
+            Stun = 0.35;
+            Damage = 45;
+            Speed = 14;
+            Knockback = 200;
+            LeftArm = false;
+        };
+        M1_2 = {
+            Size = Vector3.new(6, 12, 5);
+            Time = 0.2;
+            PosTime = 0.2;
+            Frames = 3;
+            Stun = 0.4;
+            Damage = 45;
+            Speed = 14;
+            Knockback = 200;
+            LeftArm = true;
+        };
+        M1_3 = {
+            Size = Vector3.new(6, 12, 5);
+            Time = 0.2;
+            PosTime = 0.2;
+            Frames = 3;
+            Stun = 0.35;
+            Damage = 45;
+            Speed = 14;
+            Knockback = 200;
+            LeftArm = false;
+        };
+        M1_4 = {
+            Size = Vector3.new(6, 12, 5);
+            Time = 0.2;
+            PosTime = 0.2;
+            Frames = 3;
+            Stun = 0.3;
+            Damage = 45;
+            Speed = 14;
+            Knockback = 200;
+            LeftArm = true;
+        };
+        M1_5 = {
+            Size = Vector3.new(6, 12, 5);
+            Time = 0.2;
+            PosTime = 0.4;
+            Frames = 3;
+            Stun = 0;
+            Damage = 50;
+            Speed = 0;
+            Ragdoll = 1.25;
+            Knockback = 600;
+            LeftArm = false;
+        };
+        M2 = {
+            Size = Vector3.new(7, 12, 9);
+            Position = Vector3.new(0, -0.5, -4.25);
+            Time = 0.217;
+            Frames = 2;
+            Stun = 0;
+            Damage = 50;
+            Speed = 0;
+            Ragdoll = 1.25;
+            Knockback = 600;
+            ChargeTime = 0.4;
+            LeftArm = false;
+            EndLag = 1;
+        };
+    };
+    AdvancedCombat = {
+        MaxCombo = 5;
+        M2_Variations = 1;
+        AnimSpeed = 1;
+        WeaponType = "Fists";
+        M1_StunMultiplier = 1;
+        M1_1 = {
+            Size = Vector3.new(7, 12, 6.5);
+            Time = 0.25;
+            PosTime = 0.2;
+            Frames = 3;
+            Stun = 0.5;
+            Damage = 60;
+            Speed = 15;
+            Knockback = 200;
+            LeftArm = false;
+        };
+        M1_2 = {
+            Size = Vector3.new(7, 12, 6.5);
+            Time = 0.15;
+            PosTime = 0.2;
+            Frames = 3;
+            Stun = 0.5;
+            Damage = 60;
+            Speed = 15;
+            Knockback = 200;
+            LeftArm = true;
+        };
+        M1_3 = {
+            Size = Vector3.new(7, 12, 6.5);
+            Time = 0.15;
+            PosTime = 0.2;
+            Frames = 3;
+            Stun = 0.55;
+            Damage = 60;
+            Speed = 15;
+            Knockback = 200;
+            LeftArm = false;
+        };
+        M1_4 = {
+            Size = Vector3.new(7, 12, 6.5);
+            Time = 0.15;
+            PosTime = 0.2;
+            Frames = 3;
+            Stun = 0.55;
+            Damage = 60;
+            Speed = 15;
+            Knockback = 200;
+            LeftArm = true;
+        };
+        M1_5 = {
+            Size = Vector3.new(7, 12, 6.5);
+            Time = 0.2;
+            PosTime = 0.4;
+            Frames = 3;
+            Stun = 1.2;
+            Damage = 65;
+            Speed = 0;
+            Ragdoll = 1.25;
+            Knockback = 600;
+            LeftArm = false;
+        };
+        M2 = {
+            Size = Vector3.new(9, 12, 9);
+            Position = Vector3.new(0, -0.5, -4.25);
+            Time = 0.217;
+            Frames = 2;
+            Stun = 0;
+            Damage = 60;
+            Speed = 0;
+            Ragdoll = 1.25;
+            Knockback = 600;
+            ChargeTime = 0.4;
+            LeftArm = false;
+            EndLag = 1;
+        };
+    };
+    Sword = {
+        MaxCombo = 5;
+        M2_Variations = 1;
+        Blade = true;
+        AnimSpeed = 1;
+        NotStaticM2 = true;
+        M2Speed = 1.5;
+        M1_StunMultiplier = 1.1;
+        M1_1 = {
+            Size = Vector3.new(11, 12, 7);
+            Time = 0.3;
+            PosTime = 0.25;
+            Frames = 2;
+            Stun = 0.55;
+            Damage = 75;
+            Speed = 13;
+            Knockback = 200;
+        };
+        M1_2 = {
+            Size = Vector3.new(11, 12, 7);
+            Time = 0.2;
+            PosTime = 0.25;
+            Frames = 2;
+            Stun = 0.55;
+            Damage = 75;
+            Speed = 13;
+            Knockback = 200;
+        };
+        M1_3 = {
+            Size = Vector3.new(11, 12, 7);
+            Time = 0.2;
+            PosTime = 0.25;
+            Frames = 2;
+            Stun = 0.52;
+            Damage = 75;
+            Speed = 13;
+            Knockback = 200;
+        };
+        M1_4 = {
+            Size = Vector3.new(11, 12, 7);
+            Time = 0.2;
+            PosTime = 0.25;
+            Frames = 2;
+            Stun = 0.52;
+            Damage = 75;
+            Speed = 13;
+            Knockback = 200;
+        };
+        M1_5 = {
+            Size = Vector3.new(8, 12, 8);
+            Time = 0.3;
+            PosTime = 0.4;
+            Frames = 1.5;
+            Stun = 1.2;
+            Damage = 80;
+            Speed = 0;
+            Ragdoll = 1.25;
+            Knockback = 700;
+        };
+        M2 = {
+            Size = Vector3.new(9, 12, 9.5);
+            Position = Vector3.new(0.00000, -0.5, -3.5499);
+            Time = 0.75;
+            Frames = 2;
+            Stun = 0;
+            Damage = 80;
+            Speed = 0;
+            Ragdoll = 1.25;
+            Knockback = 800;
+            ChargeTime = 0.45;
+            EndLag = 1;
+        };
+    };
+    Dagger = {
+        MaxCombo = 5;
+        M2_Variations = 1;
+        Blade = true;
+        AnimSpeed = 1;
+        Backstab = 1.3;
+        M1_StunMultiplier = 0.9;
+        M1_1 = {
+            Size = Vector3.new(8, 12, 5.5);
+            Time = 0.25;
+            PosTime = 0.1;
+            Frames = 2;
+            Stun = 0.35;
+            Damage = 60;
+            Speed = 14;
+            Knockback = 200;
+        };
+        M1_2 = {
+            Size = Vector3.new(8.5, 12, 5.5);
+            Time = 0.15;
+            PosTime = 0.1;
+            Frames = 2;
+            Stun = 0.3;
+            Damage = 60;
+            Speed = 14;
+            Knockback = 200;
+        };
+        M1_3 = {
+            Size = Vector3.new(8, 12, 5.5);
+            Time = 0.15;
+            PosTime = 0.1;
+            Frames = 2.5;
+            Stun = 0.3;
+            Damage = 60;
+            Speed = 14;
+            Knockback = 200;
+        };
+        M1_4 = {
+            Size = Vector3.new(8, 12, 5.5);
+            Time = 0.15;
+            PosTime = 0.1;
+            Frames = 2.5;
+            Stun = 0.35;
+            Damage = 60;
+            Speed = 14;
+            Knockback = 200;
+        };
+        M1_5 = {
+            Size = Vector3.new(7, 12, 5.5);
+            Time = 0.2;
+            PosTime = 0.25;
+            Frames = 2;
+            Stun = 1.2;
+            Damage = 65;
+            Speed = 0;
+            Ragdoll = 1.25;
+            Knockback = 600;
+        };
+        M2 = {
+            Size = Vector3.new(10, 12, 5);
+            Position = 0;
+            Time = 0.75;
+            Frames = 1.5;
+            Stun = 0;
+            Damage = 65;
+            Speed = 0;
+            Ragdoll = 1.25;
+            Knockback = 600;
+            ChargeTime = 0.5;
+            EndLag = 1;
+        };
+    };
+    Spear = {
+        MaxCombo = 4;
+        M2_Variations = 1;
+        Blade = true;
+        AnimSpeed = 1;
+        M2Speed = 1;
+        M1_StunMultiplier = 0.9;
+        M1_1 = {
+            Size = Vector3.new(7, 12, 7);
+            Time = 0.25;
+            PosTime = 0.2;
+            Frames = 2;
+            Stun = 0.48;
+            Damage = 80;
+            Speed = 14;
+            Knockback = 200;
+            Trail = 1;
+        };
+        M1_2 = {
+            Size = Vector3.new(10, 12, 7);
+            Time = 0.175;
+            PosTime = 0.2;
+            Frames = 2;
+            Stun = 0.49;
+            Damage = 80;
+            Speed = 14;
+            Knockback = 200;
+            Trail = 1;
+        };
+        M1_3 = {
+            Size = Vector3.new(10, 12, 7);
+            Time = 0.175;
+            PosTime = 0.2;
+            Frames = 2;
+            Stun = 0.63;
+            Damage = 80;
+            Speed = 14;
+            Knockback = 200;
+            Trail = 2;
+        };
+        M1_4 = {
+            Size = Vector3.new(8, 12, 7);
+            Time = 0.2;
+            PosTime = 0.45;
+            Frames = 2;
+            Stun = 0.435;
+            Damage = 85;
+            Ragdoll = 1.25;
+            Speed = 0;
+            Knockback = 300;
+            Trail = 1;
+        };
+        M2 = {
+            Size = Vector3.new(7, 12, 9);
+            Position = Vector3.new(0, -0.5, 0);
+            Time = 0.1;
+            Frames = 2;
+            Stun = 0;
+            Damage = 120;
+            Speed = 0;
+            Ragdoll = 1.25;
+            Knockback = 600;
+            ChargeTime = 0.35;
+            EndLag = 1;
+        };
+    };
+    Axe = {
+        MaxCombo = 3;
+        M2_Variations = 1;
+        Blade = true;
+        AnimSpeed = 1;
+        M2Speed = 1;
+        M1_StunMultiplier = 1;
+        M1_1 = {
+            Size = Vector3.new(11, 12, 7);
+            Time = 0.35;
+            PosTime = 0.35;
+            Frames = 2;
+            Stun = 0.525;
+            Damage = 100;
+            Speed = 13;
+            Knockback = 200;
+        };
+        M1_2 = {
+            Size = Vector3.new(10, 12, 7);
+            Time = 0.3;
+            PosTime = 0.3;
+            Frames = 2;
+            Stun = 0.6;
+            Damage = 100;
+            Speed = 13;
+            Knockback = 200;
+        };
+        M1_3 = {
+            Size = Vector3.new(8, 12, 7);
+            Time = 0.3;
+            PosTime = 0.4;
+            Frames = 2;
+            Stun = 0.4;
+            Damage = 120;
+            Ragdoll = 1.25;
+            Speed = 0;
+            Knockback = 800;
+        };
+        M1_3_Special = {
+            Size = Vector3.new(8, 12, 7);
+            Position = Vector3.new();
+            Time = 0.3;
+            PosTime = 0.4;
+            Frames = 2;
+            Stun = 0.6;
+            Damage = 150;
+            Ragdoll = 1.25;
+            Speed = 0;
+            Knockback = 600;
+        };
+        M2 = {
+            Size = Vector3.new(11, 12, 6);
+            Position = 0;
+            Time = 0.7;
+            Frames = 2;
+            Stun = 0;
+            Damage = 85;
+            Speed = 0;
+            Ragdoll = 1.25;
+            Knockback = 600;
+            ChargeTime = 0.35;
+            PosStun = 0.65;
+            EndLag = 1;
+            GetUpUnblockable = true;
+        };
+    };
+    Greatsword = {
+        MaxCombo = 3;
+        M2_Variations = 1;
+        Blade = true;
+        AnimSpeed = 1;
+        M2Speed = 1.1;
+        M1_StunMultiplier = 0.95;
+        M1_1 = {
+            Size = Vector3.new(10, 12, 7.5);
+            Time = 0.4;
+            PosTime = 0.4;
+            Frames = 4.5;
+            Stun = 0.6;
+            Damage = 100;
+            Speed = 15;
+            Knockback = 300;
+        };
+        M1_2 = {
+            Size = Vector3.new(14, 12, 7);
+            Time = 0.45;
+            PosTime = 0.4;
+            Frames = 3;
+            Stun = 0.6;
+            Damage = 100;
+            Speed = 15;
+            Knockback = 300;
+        };
+        M1_3 = {
+            Size = Vector3.new(10, 12, 7.5);
+            Time = 0.325;
+            PosTime = 0.4;
+            Frames = 4.5;
+            Stun = 1;
+            Damage = 100;
+            Speed = 0;
+            Knockback = 800;
+            Ragdoll = 1.5;
+        };
+        M2 = {
+            Size = Vector3.new(14, 12, 7);
+            Position = 0;
+            Time = 0.2;
+            Frames = 2;
+            Stun = 0;
+            Damage = 200;
+            Speed = 0;
+            Ragdoll = 1.75;
+            Knockback = 800;
+            ChargeTime = 0.5;
+            PosStun = 0.5;
+            EndLag = 1;
+            GetUpUnblockable = true;
+        };
+    };
+    DoubleSword = {
+        MaxCombo = 5;
+        M2_Variations = 1;
+        Blade = true;
+        AnimSpeed = 1.45;
+        NotStaticM2 = true;
+        M2Speed = 1.5;
+        M1_StunMultiplier = 1;
+        M1_1 = {
+            Size = Vector3.new(9, 12, 7);
+            Time = 0.35;
+            PosTime = 0.15;
+            Frames = 1.5;
+            Stun = 0.55;
+            Damage = 80;
+            Speed = 13;
+            Knockback = 200;
+            LeftArm = false;
+        };
+        M1_2 = {
+            Size = Vector3.new(8, 12, 7);
+            Time = 0.2;
+            PosTime = 0.15;
+            Frames = 1.5;
+            Stun = 0.55;
+            Damage = 80;
+            Speed = 13;
+            Knockback = 200;
+            LeftArm = true;
+        };
+        M1_3 = {
+            Size = Vector3.new(8, 12, 7);
+            Time = 0.2;
+            PosTime = 0.15;
+            Frames = 1.5;
+            Stun = 0.52;
+            Damage = 80;
+            Speed = 13;
+            Knockback = 200;
+            LeftArm = false;
+        };
+        M1_4 = {
+            Size = Vector3.new(8, 12, 7);
+            Time = 0.2;
+            PosTime = 0.15;
+            Frames = 1.5;
+            Stun = 0.52;
+            Damage = 80;
+            Speed = 13;
+            Knockback = 200;
+            LeftArm = true;
+        };
+        M1_5 = {
+            Size = Vector3.new(6, 12, 7.5);
+            Time = 0.3;
+            PosTime = 0.4;
+            Frames = 1.5;
+            Stun = 1.2;
+            Damage = 85;
+            Speed = 0;
+            Ragdoll = 1.25;
+            Knockback = 700;
+        };
+        M2 = {
+            Size = Vector3.new(9, 12, 9.5);
+            Position = Vector3.new(0.00000, -0.5, -3.5499);
+            Time = 0.75;
+            Frames = 2;
+            Stun = 0;
+            Damage = 80;
+            Speed = 0;
+            Ragdoll = 1.25;
+            Knockback = 800;
+            ChargeTime = 0.45;
+            LeftArm = false;
+            EndLag = 1;
+        };
+    };
+    Scythes = {
+        MaxCombo = 4;
+        M2_Variations = 1;
+        Blade = true;
+        AnimSpeed = 1;
+        Backstab = 1.3;
+        M1_StunMultiplier = 1;
+        M1_1 = {
+            Size = Vector3.new(8, 12, 6);
+            Time = 0.25;
+            PosTime = 0.175;
+            Frames = 2;
+            Stun = 0.35;
+            Damage = 70;
+            Speed = 14;
+            Knockback = 200;
+            LeftArm = false;
+        };
+        M1_2 = {
+            Size = Vector3.new(8, 12, 6);
+            Time = 0.15;
+            PosTime = 0.175;
+            Frames = 2;
+            Stun = 0.3;
+            Damage = 70;
+            Speed = 14;
+            Knockback = 200;
+            LeftArm = true;
+        };
+        M1_3 = {
+            Size = Vector3.new(8, 12, 6);
+            Time = 0.13;
+            PosTime = 0.175;
+            Frames = 2;
+            Stun = 0.35;
+            Damage = 70;
+            Speed = 14;
+            Knockback = 200;
+            LeftArm = false;
+        };
+        M1_4 = {
+            Size = Vector3.new(10, 12, 10);
+            Time = 0.2;
+            PosTime = 0.4;
+            Frames = 2;
+            Stun = 0.35;
+            Damage = 75;
+            Speed = 14;
+            Knockback = 400;
+            Ragdoll = 1.25;
+            PosStun = 0.7;
+            LeftArm = "";
+        };
+        M2 = {
+            Size = Vector3.new(7, 12, 5);
+            Position = 0;
+            Time = 0.6;
+            Frames = 1.5;
+            Stun = 0;
+            Damage = 80;
+            Speed = 0;
+            Ragdoll = 1.25;
+            Knockback = 500;
+            ChargeTime = 0.3;
+            EndLag = 1;
+        };
+    };
+    Tomahawk = {
+        MaxCombo = 5;
+        M2_Variations = 1;
+        Blade = true;
+        AnimSpeed = 1;
+        NotStaticM2 = true;
+        M2Speed = 1;
+        M1_StunMultiplier = 1;
+        M1_1 = {
+            Size = Vector3.new(9, 12, 6);
+            Time = 0.35;
+            PosTime = 0.2;
+            Frames = 2;
+            Stun = 0.55;
+            Damage = 80;
+            Speed = 13;
+            Knockback = 200;
+            LeftArm = false;
+        };
+        M1_2 = {
+            Size = Vector3.new(8, 12, 6);
+            Time = 0.3;
+            PosTime = 0.2;
+            Frames = 2;
+            Stun = 0.55;
+            Damage = 80;
+            Speed = 13;
+            Knockback = 200;
+            LeftArm = true;
+        };
+        M1_3 = {
+            Size = Vector3.new(8, 12, 6);
+            Time = 0.3;
+            PosTime = 0.2;
+            Frames = 2;
+            Stun = 0.52;
+            Damage = 80;
+            Speed = 13;
+            Knockback = 200;
+            LeftArm = false;
+        };
+        M1_4 = {
+            Size = Vector3.new(6, 12, 6);
+            Time = 0.3;
+            PosTime = 0.2;
+            Frames = 2;
+            Stun = 0.52;
+            Damage = 80;
+            Speed = 13;
+            Knockback = 200;
+            LeftArm = true;
+        };
+        M1_5 = {
+            Size = Vector3.new(6, 12, 7);
+            Time = 0.2;
+            PosTime = 0.2;
+            Frames = 1.5;
+            Stun = 1.2;
+            Damage = 85;
+            Speed = 0;
+            Ragdoll = 1.25;
+            Knockback = 700;
+        };
+        M2 = {
+            Size = Vector3.new(9, 12, 9.5);
+            Position = Vector3.new(0.00000, -0.5, -3.5499);
+            Time = 0.75;
+            Frames = 2.5;
+            Stun = 0;
+            Damage = 80;
+            Speed = 0;
+            Ragdoll = 1.25;
+            Knockback = 800;
+            ChargeTime = 0.45;
+            LeftArm = false;
+            EndLag = 1;
+        };
+    };
+    Staff = {
+        MaxCombo = 5;
+        M2_Variations = 1;
+        Blade = true;
+        MagicHit = true;
+        AnimSpeed = 1;
+        NotStaticM2 = true;
+        M2Speed = 1.5;
+        M1_StunMultiplier = 1;
+        M1_1 = {
+            Size = Vector3.new(9, 12, 7);
+            Time = 0.4;
+            PosTime = 0.2;
+            Frames = 2;
+            Stun = 0.55;
+            Damage = 75;
+            Speed = 13;
+            Knockback = 200;
+        };
+        M1_2 = {
+            Size = Vector3.new(9, 12, 7);
+            Time = 0.35;
+            PosTime = 0.2;
+            Frames = 2;
+            Stun = 0.55;
+            Damage = 75;
+            Speed = 13;
+            Knockback = 200;
+        };
+        M1_3 = {
+            Size = Vector3.new(9, 12, 7);
+            Time = 0.35;
+            PosTime = 0.2;
+            Frames = 2;
+            Stun = 0.52;
+            Damage = 75;
+            Speed = 13;
+            Knockback = 200;
+        };
+        M1_4 = {
+            Size = Vector3.new(9, 12, 7);
+            Time = 0.35;
+            PosTime = 0.2;
+            Frames = 2;
+            Stun = 0.52;
+            Damage = 75;
+            Speed = 13;
+            Knockback = 200;
+        };
+        M1_5 = {
+            Size = Vector3.new(7, 12, 8);
+            Time = 0.2;
+            PosTime = 0.4;
+            Frames = 1.5;
+            Stun = 1.2;
+            Damage = 80;
+            Speed = 0;
+            Ragdoll = 1.25;
+            Knockback = 700;
+        };
+        M2 = {
+            Size = Vector3.new(9, 12, 9.5);
+            Position = Vector3.new(0.00000, -0.5, -3.5499);
+            Time = 0.75;
+            Frames = 2;
+            Stun = 0;
+            Damage = 80;
+            Speed = 0;
+            Ragdoll = 1.25;
+            Knockback = 800;
+            ChargeTime = 0.45;
+            EndLag = 1;
+        };
+    };
+    Flintlock = {
+        MaxCombo = 6;
+        M2_Variations = 1;
+        Blade = true;
+        AnimSpeed = 1;
+        NotStaticM2 = true;
+        M2Speed = 1.5;
+        M1_StunMultiplier = 1;
+        M1_1 = {
+            Size = Vector3.new(9, 12, 7);
+            Time = 0.35;
+            PosTime = 0.1;
+            Frames = 2;
+            Stun = 0.55;
+            Damage = 50;
+            Speed = 13;
+            Knockback = 200;
+            LeftArm = false;
+        };
+        M1_2 = {
+            Size = Vector3.new(9, 12, 6.5);
+            Time = 0.3;
+            PosTime = 0.25;
+            Frames = 2;
+            Stun = 0.55;
+            Damage = 50;
+            Speed = 13;
+            Knockback = 200;
+            Blade = false;
+            LeftArm = false;
+        };
+        M1_3 = {
+            Size = Vector3.new(9, 12, 6.5);
+            Time = 0.2;
+            PosTime = 0.1;
+            Frames = 1.5;
+            Stun = 0.52;
+            Damage = 50;
+            Speed = 13;
+            Knockback = 200;
+            LeftArm = false;
+        };
+        M1_4 = {
+            Size = Vector3.new(9, 12, 6.5);
+            Time = 0.2;
+            PosTime = 0.2;
+            Frames = 2;
+            Stun = 0.52;
+            Damage = 50;
+            Speed = 13;
+            Knockback = 200;
+            Blade = false;
+            LeftArm = true;
+        };
+        M1_5 = {
+            Size = Vector3.new(7, 12, 6.5);
+            Time = 0.2;
+            PosTime = 0.1;
+            Frames = 2.5;
+            Stun = 0.52;
+            Damage = 50;
+            Speed = 13;
+            Knockback = 200;
+            Sequential = true;
+            LeftArm = false;
+        };
+        M1_6 = {
+            Size = Vector3.new(7, 12, 7);
+            Time = 0.4;
+            PosTime = 0.4;
+            Frames = 2;
+            Stun = 1.2;
+            Damage = 50;
+            Speed = 0;
+            Ragdoll = 1.25;
+            Knockback = 700;
+            Blade = false;
+            LeftArm = true;
+        };
+        M2 = {
+            Size = Vector3.new(9, 12, 9.5);
+            Position = 0;
+            Time = 0.75;
+            Frames = 1.5;
+            Stun = 0;
+            Damage = 100;
+            Speed = 0;
+            Ragdoll = 1.25;
+            Knockback = 800;
+            ChargeTime = 0.45;
+            EndLag = 1;
+        };
+    };
+    Shield = {
+        MaxCombo = 3;
+        M2_Variations = 1;
+        Blade = false;
+        AnimSpeed = 1;
+        M2Speed = 1.5;
+        M1_StunMultiplier = 1;
+        M1_1 = {
+            Size = Vector3.new(9, 12, 7);
+            Time = 0.33;
+            PosTime = 0.1;
+            Frames = 2;
+            Stun = 0.55;
+            Damage = 75;
+            Speed = 13;
+            Knockback = 200;
+        };
+        M1_2 = {
+            Size = Vector3.new(9, 12, 7);
+            Time = 0.33;
+            PosTime = 0.1;
+            Frames = 2;
+            Stun = 0.55;
+            Damage = 75;
+            Speed = 13;
+            Knockback = 200;
+        };
+        M1_3 = {
+            Size = Vector3.new(9, 12, 7);
+            Time = 0.2;
+            PosTime = 0.1;
+            Frames = 1;
+            Stun = 0.52;
+            Damage = 75;
+            Speed = 13;
+            Knockback = 200;
+            Sequential = true;
+        };
+        M1_4 = {
+            Size = Vector3.new(9, 12, 7);
+            Time = 0.3;
+            PosTime = 0.1;
+            Frames = 2;
+            Stun = 0.52;
+            Damage = 75;
+            Speed = 13;
+            Knockback = 700;
+            Ragdoll = 1.5;
+        };
+        M2 = {
+            Size = Vector3.new(9, 12, 9.5);
+            Position = Vector3.new(0.00000, -0.5, -3.5499);
+            Time = 0.75;
+            Frames = 2;
+            Stun = 0;
+            Damage = 80;
+            Speed = 0;
+            Ragdoll = 1.25;
+            Knockback = 800;
+            ChargeTime = 0.45;
+            EndLag = 1;
+        };
+    };
+    AnubisTempo = {
+        MaxCombo = 5;
+        M2_Variations = 1;
+        AnimSpeed = 1;
+        WeaponType = "Fists";
+        M1_StunMultiplier = 1;
+        CrystallizationParticle = true;
+        M1_1 = {
+            Size = Vector3.new(7, 12, 6.5);
+            Time = 0.25;
+            PosTime = 0.2;
+            Frames = 2;
+            Stun = 0.5;
+            Damage = 60;
+            Speed = 15;
+            Knockback = 200;
+            LeftArm = false;
+            SoundSpeed = 0.8;
+        };
+        M1_2 = {
+            Size = Vector3.new(7, 12, 6.5);
+            Time = 0.15;
+            PosTime = 0.2;
+            Frames = 2;
+            Stun = 0.5;
+            Damage = 60;
+            Speed = 15;
+            Knockback = 200;
+            LeftArm = true;
+            SoundSpeed = 0.75;
+        };
+        M1_3 = {
+            Size = Vector3.new(7, 12, 6.5);
+            Time = 0.15;
+            PosTime = 0.2;
+            Frames = 2;
+            Stun = 0.55;
+            Damage = 60;
+            Speed = 15;
+            Knockback = 200;
+            LeftArm = false;
+            SoundSpeed = 0.75;
+        };
+        M1_4 = {
+            Size = Vector3.new(7, 12, 6.5);
+            Time = 0.15;
+            PosTime = 0.2;
+            Frames = 2;
+            Stun = 0.55;
+            Damage = 60;
+            Speed = 15;
+            Knockback = 200;
+            LeftArm = true;
+            SoundSpeed = 0.75;
+        };
+        M1_5 = {
+            Size = Vector3.new(7, 12, 6.5);
+            Time = 0.35;
+            PosTime = 0.4;
+            Frames = 2;
+            Stun = 1.2;
+            Damage = 65;
+            Speed = 0;
+            Ragdoll = 1.25;
+            Knockback = 600;
+            LeftArm = false;
+            SoundSpeed = 0.65;
+        };
+        M2 = {
+            Size = Vector3.new(9, 12, 14);
+            Position = Vector3.new(0, -0.5, -4.25);
+            Time = 0.217;
+            Frames = 2;
+            Stun = 0;
+            Damage = 60;
+            Speed = 0;
+            Ragdoll = 1.25;
+            Knockback = 600;
+            ChargeTime = 0.4;
+            LeftArm = false;
+            EndLag = 1;
+        };
+    };
+    LongSpear = {
+        MaxCombo = 4;
+        M2_Variations = 1;
+        Blade = true;
+        AnimSpeed = 1;
+        M2Speed = 1;
+        M1_StunMultiplier = 1;
+        M1_1 = {
+            Size = Vector3.new(7, 12, 8);
+            Time = 0.25;
+            PosTime = 0.2;
+            Frames = 2;
+            Stun = 0.48;
+            Damage = 80;
+            Speed = 14;
+            Knockback = 200;
+            Trail = 1;
+        };
+        M1_2 = {
+            Size = Vector3.new(10, 12, 7);
+            Time = 0.175;
+            PosTime = 0.2;
+            Frames = 2;
+            Stun = 0.49;
+            Damage = 80;
+            Speed = 14;
+            Knockback = 200;
+            Trail = 1;
+        };
+        M1_3 = {
+            Size = Vector3.new(10, 12, 7);
+            Time = 0.175;
+            PosTime = 0.2;
+            Frames = 2;
+            Stun = 0.63;
+            Damage = 80;
+            Speed = 14;
+            Knockback = 200;
+            Trail = 2;
+        };
+        M1_4 = {
+            Size = Vector3.new(8, 12, 8);
+            Time = 0.2;
+            PosTime = 0.45;
+            Frames = 2;
+            Stun = 0.435;
+            Damage = 85;
+            Ragdoll = 1.25;
+            Speed = 0;
+            Knockback = 300;
+            Trail = 1;
+        };
+        M2 = {
+            Size = Vector3.new(7, 12, 9);
+            Position = Vector3.new(0, -0.5, 0);
+            Time = 0.1;
+            Frames = 2;
+            Stun = 0;
+            Damage = 120;
+            Speed = 0;
+            Ragdoll = 1.25;
+            Knockback = 600;
+            ChargeTime = 0.35;
+            EndLag = 1;
+        };
+    };
+}
+return module_2_upvr
